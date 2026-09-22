@@ -42,14 +42,16 @@ class CrashLearnEnv(gym.Env):
         observation = self._format_observation(get_obs(0))
         step_info = get_step_info()
 
-        reward = step_info["progress_delta"]
-        collision = (step_info["collisions"]["wall"] or step_info["collisions"]["vehicle"])
-        lap_complete = step_info["lap_complete"]
+        reward = float(step_info["progress_delta"][0])
+        collision = (
+            step_info["collisions"]["wall"][0] 
+            or step_info["collisions"]["vehicle"][0])
+        lap_complete = step_info["lap_complete"][0]
 
         if collision:
-            reward =- 10
+            reward -= 10
         if lap_complete:
-            reward =+ 100
+            reward += 100
 
         terminated = False
         truncated = False
