@@ -61,7 +61,7 @@ T = args.steps
 _SPEED   = 2.0
 _LOOKAHEAD = 1.0
 
-from framework.simulation.env_simulation import _PARAMS as _EP
+from framework.env_simulation import _PARAMS as _EP
 _WHEELBASE = _EP["lf"] + _EP["lr"]
 _SMIN, _SMAX = _EP["s_min"], _EP["s_max"]
 
@@ -124,7 +124,7 @@ def _onnx_policy(session, obs):
 team_agents = []
 team_names = [f"Car_{i}" for i in range(num_cars)]
 
-from framework.validation.agent_loader import discover_and_load_submissions
+from framework.agent_loader import discover_and_load_submissions
 
 sub_path = args.submission.strip()
 if not sub_path and args.controller in ("auto", "submission"):
@@ -164,7 +164,7 @@ if args.model:
 # ---------------------------------------------------------------------------
 # Sim import
 # ---------------------------------------------------------------------------
-from framework.simulation.env_simulation import (
+from framework.env_simulation import (
     reset, get_obs, apply_action, simulation_step, get_step_info, close, _get_sim,
     get_current_map, set_map,
 )

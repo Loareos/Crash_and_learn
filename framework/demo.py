@@ -13,7 +13,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from framework.simulation.env_simulation import (
+from framework.env_simulation import (
     apply_action,
     close,
     get_obs,

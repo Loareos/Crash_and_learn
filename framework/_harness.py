@@ -27,7 +27,7 @@ def run_test(name: str, fn):
 
 def run_all(tests):
     import sys
-    from framework.simulation.env_simulation import close
+    from framework.env_simulation import close
     print(f"Running {len(tests)} tests...\n")
     for name, fn in tests:
         run_test(name, fn)

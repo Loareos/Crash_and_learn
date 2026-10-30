@@ -1,17 +1,25 @@
 import gymnasium as gym
 import numpy as np
-from framework.simulation.env_simulation import (
+from framework.env_simulation import (
     reset,
     get_obs,
     apply_action,
     simulation_step,
     get_step_info,
-    close
+    close,
+    set_map,
+)
+from src.features import (
+    format_observation,
+    calculate_reward
 )
 
+metadata = {"render_mode": []}
+
 class CrashLearnEnv(gym.Env):
-    def __init__(self):
+    def __init__(self, render_mode=None):
         super().__init__()
+        self.render_mode = render_mode
         self.action_space = gym.spaces.Box(
             low=np.array([-2.0, -0.4189], dtype=np.float32),
             high=np.array([10.0, 0.4189], dtype=np.float32),
@@ -27,44 +35,44 @@ class CrashLearnEnv(gym.Env):
             # "rank": gym.spaces.Box(low=,high=,shape=,dtype=np.float32),
             # "opponents": gym.spaces.,
         })
+        self.car_id = 0
 
-    def reset(self, seed=None, options=None):
+    def reset(self, *, seed=None, options=None):
         super().reset(seed=seed)
         reset()
-        observation = self._format_observation(get_obs(0))
+        raw_obs = get_obs(self.car_id)
+        observation = format_observation(raw_obs)
         return observation, {}
 
     def step(self,action):
-        speed, steering = action
-        apply_action(0, speed, steering)
+
+        action = np.asarray(action, dtype=np.float32)
+        speed = float(action[0])
+        steering = float(action[1])
+
+        apply_action(self.car_id, speed, steering)
         simulation_step()
         
-        observation = self._format_observation(get_obs(0))
+        raw_obs = get_obs(self.car_id)
+        observation = format_observation(raw_obs)
         step_info = get_step_info()
 
-        reward = float(step_info["progress_delta"][0])
-        collision = (
-            step_info["collisions"]["wall"][0] 
-            or step_info["collisions"]["vehicle"][0])
-        lap_complete = step_info["lap_complete"][0]
+        reward = calculate_reward(observation,step_info,speed)
 
-        if collision:
-            reward -= 10
-        if lap_complete:
-            reward += 100
+        terminated = (
+            step_info["collisions"]["wall"][self.car_id] 
+            or step_info["collisions"]["vehicle"][self.car_id]
+        )
 
-        terminated = False
         truncated = False
-        return observation, reward, terminated, truncated, {}
+
+        return observation, float(reward), terminated, truncated, {
+            "reward": float(reward),
+            "progress_delta": float(step_info["progress_delta"][self.car_id])
+        }
+    
+    def render(self):
+        return None
 
     def close(self):
         close()
-
-    def _format_observation(self, obs):
-        return {
-            "lidar": np.asarray(obs["lidar"], dtype=np.float32),
-            "velocity": np.asarray([obs["velocity"]], dtype=np.float32),
-            "steering": np.asarray([obs["steering"]], dtype=np.float32),
-            "progress": np.asarray([obs["progress"]], dtype=np.float32),
-            "lap_count": np.asarray([obs["lap_count"]], dtype=np.float32)
-        }

@@ -5,16 +5,16 @@ Run with: python test_integration.py
 import math
 import numpy as np
 
-from framework.validation._harness import run_all, run_test, ok, fail
+from framework._harness import run_all, run_test, ok, fail
 
 # ---------------------------------------------------------------------------
 # Import under test
 # ---------------------------------------------------------------------------
-from framework.simulation.env_simulation import (
+from framework.env_simulation import (
     get_space_info, reset, get_obs, apply_action, simulation_step, get_step_info, close,
     _LIDAR_RAYS, _MAX_SLOTS, _get_sim, _DNF_WINDOW_STEPS, _FRICTION_HI, _PARAMS,
 )
-from f110_gym.envs.base_classes import RaceCar
+from gym.f110_gym.envs.base_classes import RaceCar
 
 # ---------------------------------------------------------------------------
 # T05 — vehicle-vehicle collision: no termination, knockback visible

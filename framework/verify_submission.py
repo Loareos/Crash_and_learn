@@ -21,7 +21,7 @@ from pathlib import Path
 import numpy as np
 
 # Import agent_loader from same directory (shared with tournament)
-from framework.validation.agent_loader import validate_and_load_agent
+from framework.agent_loader import validate_and_load_agent
 
 ALLOWED_MODULES = {"onnxruntime", "numpy", "os"}
 MAX_OPSET = 17

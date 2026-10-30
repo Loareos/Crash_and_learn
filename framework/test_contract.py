@@ -5,12 +5,12 @@ Run with: docker compose run --rm sim python test_contract.py
 import math
 import numpy as np
 
-from framework.validation._harness import run_all, run_test, ok, fail
+from framework._harness import run_all, run_test, ok, fail
 
 # ---------------------------------------------------------------------------
 # Import under test (no get_my_id)
 # ---------------------------------------------------------------------------
-from framework.simulation.env_simulation import (
+from framework.env_simulation import (
     reset, get_obs, apply_action, simulation_step, get_step_info, close,
     get_space_info, _LIDAR_RAYS, _MAX_SLOTS, _get_sim,
     _REQUIRED_LAPS, _DECISION_FREQ_HZ, _KNOCKBACK_REST, _DNF_WINDOW_STEPS,
