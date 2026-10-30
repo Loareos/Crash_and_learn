@@ -35,7 +35,7 @@ services:
     working_dir: /app
     environment:
       MPLBACKEND: Agg
-    command: python -m framework.examples.demo
+    command: python framework/demo.py
 
   tensorboard:
     build:
@@ -60,7 +60,7 @@ services:
     working_dir: /app
     environment:
       MPLBACKEND: Agg
-    command: python framework/simulation/sim_recorder.py --steps 500 --num-cars 1 --out /app/recordings/episode.npz
+    command: python framework/sim_recorder.py --steps 500 --num-cars 1 --out /app/recordings/episode.npz
 
   # --- viz_replay (top-down replay, headless matplotlib) ---
   replay:
@@ -73,4 +73,4 @@ services:
     working_dir: /app
     environment:
       MPLBACKEND: Agg
-    command: python framework/simulation/viz_replay.py --npz /app/episode.npz
+    command: python framework/viz_replay.py --npz /app/episode.npz
