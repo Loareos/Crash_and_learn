@@ -14,7 +14,7 @@ from framework.env_simulation import (
     get_space_info, reset, get_obs, apply_action, simulation_step, get_step_info, close,
     _LIDAR_RAYS, _MAX_SLOTS, _get_sim, _DNF_WINDOW_STEPS, _FRICTION_HI, _PARAMS,
 )
-from gym.f110_gym.envs.base_classes import RaceCar
+from f110_gym.envs.base_classes import RaceCar
 
 # ---------------------------------------------------------------------------
 # T05 — vehicle-vehicle collision: no termination, knockback visible

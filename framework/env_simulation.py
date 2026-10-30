@@ -46,8 +46,8 @@ import collections
 import numpy as np
 from numba import njit
 
-from gym.f110_gym.envs.base_classes import Simulator, Integrator, RaceCar
-from gym.f110_gym.envs.laser_models import ScanSimulator2D
+from f110_gym.envs.base_classes import Simulator, Integrator, RaceCar
+from f110_gym.envs.laser_models import ScanSimulator2D
 
 # ---------------------------------------------------------------------------
 # Module-level constants
